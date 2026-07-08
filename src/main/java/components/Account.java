@@ -34,6 +34,6 @@ public abstract class Account {
 
     @Override
     public String toString() {
-        return "Client [" + client.getClientNumber() + "] : " + client.getFirstName() + " " + client.getName() + " Balance: " + getBalance();
+        return "Client [" + client.getClientNumber() + "] : " + client.getFirstName() + " " + client.getName() + " | Account Number [" + getAccountNumber() + "] " + getLabel() + ": " + getBalance();
     }
 }
