@@ -5,16 +5,17 @@ import components.Client;
 import components.CurrentAccount;
 import components.SavingsAccount;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 // 1.1.2 Creation of main class for tests
 public class Main {
     public static void main(String[] args) {
         List<Client> myClients = generateClients(3);
-        // displayClients(myClients);
+        // 1.2.3 Creation of the tablea accoun
         List<Account> myAccounts = generateAccounts(myClients);
-        displayAccounts(myAccounts);
+        // 1.3.1 Adaptation of the table of accounts
+        Map<Integer, Account> myClientsMap = convertToHashtable(myAccounts);
+        displaySortedAccounts(myClientsMap);
     }
 
     public static List<Client> generateClients(int n) {
@@ -27,11 +28,11 @@ public class Main {
     }
 
 
-    public static void displayClients(List<Client> clients) {
-        for (Client c : clients) {
-            System.out.println(c);
-        }
-    }
+//    public static void displayClients(List<Client> clients) {
+//        for (Client c : clients) {
+//            System.out.println(c);
+//        }
+//    }
 
     public static List<Account> generateAccounts(List<Client> clients) {
 
@@ -43,9 +44,24 @@ public class Main {
         return accounts;
     }
 
-    public static void displayAccounts(List<Account> accounts) {
+//    public static void displayAccounts(List<Account> accounts) {
+//        for (Account a : accounts) {
+//            System.out.println(a);
+//        }
+//    }
+
+    public static Map<Integer, Account> convertToHashtable(List<Account> accounts) {
+
+        Map<Integer, Account> map = new HashMap<>();
         for (Account a : accounts) {
-            System.out.println(a);
+            map.put(a.getAccountNumber(), a);
         }
+        return map;
+    }
+
+    public static void displaySortedAccounts(Map<Integer, Account> accountsMap) {
+        accountsMap.entrySet().stream()
+                .sorted(Comparator.comparing(entry -> entry.getValue().getBalance()))
+                .forEach(entry -> System.out.println(entry.getValue()));
     }
 }
