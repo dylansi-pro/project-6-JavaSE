@@ -7,7 +7,7 @@ public class Client {
     private static int counter = 0;
     private int clientNumber;
 
-    public Client(String name,String firstName ,int clientNumber) {
+    public Client(String name,String firstName) {
         this.name = name;
         this.firstName = firstName;
         this.clientNumber = counter++;
