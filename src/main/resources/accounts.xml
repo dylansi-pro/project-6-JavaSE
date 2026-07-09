@@ -1,0 +1,42 @@
+<accounts>
+    <account type="CurrentAccount">
+        <accountNumber>1</accountNumber>
+        <balance>1200.0</balance>
+    </account>
+    <account type="SavingsAccount">
+        <accountNumber>2</accountNumber>
+        <balance>5500.5</balance>
+    </account>
+    <account type="CurrentAccount">
+        <accountNumber>3</accountNumber>
+        <balance>850.0</balance>
+    </account>
+    <account type="CurrentAccount">
+        <accountNumber>4</accountNumber>
+        <balance>3200.0</balance>
+    </account>
+    <account type="SavingsAccount">
+        <accountNumber>5</accountNumber>
+        <balance>15000.0</balance>
+    </account>
+    <account type="CurrentAccount">
+        <accountNumber>6</accountNumber>
+        <balance>450.75</balance>
+    </account>
+    <account type="SavingsAccount">
+        <accountNumber>7</accountNumber>
+        <balance>2100.0</balance>
+    </account>
+    <account type="CurrentAccount">
+        <accountNumber>8</accountNumber>
+        <balance>990.0</balance>
+    </account>
+    <account type="CurrentAccount">
+        <accountNumber>9</accountNumber>
+        <balance>2500.0</balance>
+    </account>
+    <account type="SavingsAccount">
+        <accountNumber>10</accountNumber>
+        <balance>7800.0</balance>
+    </account>
+</accounts>

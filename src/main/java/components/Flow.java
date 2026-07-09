@@ -1,8 +1,17 @@
 package components;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import java.time.LocalDate;
 
 // 1.3.2 Creation of the Flow class
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Credit.class, name = "Credit"),
+        @JsonSubTypes.Type(value = Debit.class, name = "Debit"),
+        @JsonSubTypes.Type(value = Transfert.class, name = "Transfert")
+})
 public class Flow {
     private String comment;
     private int identifier;
@@ -18,6 +27,10 @@ public class Flow {
         this.targetAccountNumber = targetAccountNumber;
         this.effect = effect;
         this.date = LocalDate.now();
+    }
+
+    public Flow() {
+
     }
 
     public String getComment() {

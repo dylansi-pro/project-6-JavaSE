@@ -9,6 +9,8 @@ public class Transfert extends Flow {
         this.originAccountNumber = originAccountNumber;
     }
 
+    public Transfert() {}
+
     public int getOriginAccountNumber() {
         return originAccountNumber;
     }

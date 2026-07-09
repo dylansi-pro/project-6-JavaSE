@@ -1,0 +1,75 @@
+[
+  {
+    "type": "Credit",
+    "identifier": 1,
+    "amount": 500.0,
+    "targetAccountNumber": 1,
+    "effect": true
+  },
+  {
+    "type": "Debit",
+    "identifier": 2,
+    "amount": 200.0,
+    "targetAccountNumber": 3,
+    "effect": true
+  },
+  {
+    "type": "Transfert",
+    "identifier": 3,
+    "amount": 300.0,
+    "originAccountNumber": 1,
+    "targetAccountNumber": 2,
+    "effect": true
+  },
+  {
+    "type": "Credit",
+    "identifier": 4,
+    "amount": 1000.0,
+    "targetAccountNumber": 4,
+    "effect": true
+  },
+  {
+    "type": "Debit",
+    "identifier": 5,
+    "amount": 50.0,
+    "targetAccountNumber": 6,
+    "effect": true
+  },
+  {
+    "type": "Transfert",
+    "identifier": 6,
+    "amount": 150.0,
+    "originAccountNumber": 4,
+    "targetAccountNumber": 5,
+    "effect": true
+  },
+  {
+    "type": "Credit",
+    "identifier": 7,
+    "amount": 200.0,
+    "targetAccountNumber": 8,
+    "effect": true
+  },
+  {
+    "type": "Debit",
+    "identifier": 8,
+    "amount": 9999.0,
+    "targetAccountNumber": 9,
+    "effect": true
+  },
+  {
+    "type": "Transfert",
+    "identifier": 9,
+    "amount": 500.0,
+    "originAccountNumber": 10,
+    "targetAccountNumber": 7,
+    "effect": true
+  },
+  {
+    "type": "Credit",
+    "identifier": 10,
+    "amount": 120.0,
+    "targetAccountNumber": 3,
+    "effect": true
+  }
+]

@@ -5,10 +5,23 @@ import components.*;
 import java.util.*;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.io.BufferedReader;
+import java.nio.file.Files;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.File;
+import java.util.List;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 // 1.1.2 Creation of main class for tests
 public class Main {
     public static void main(String[] args) {
+
+        /*  // I - Account Management
         List<Client> myClients = generateClients(3);
         // 1.2.3 Creation of the tablea accoun
         List<Account> myAccounts = generateAccounts(myClients);
@@ -21,6 +34,33 @@ public class Main {
         // Affichage final trié (étape 1.3.1)
         System.out.println("--- Comptes triés par solde ---");
         displaySortedAccounts(myClientsMap);
+        */
+
+        // II - Account management adcanced
+
+        List<Account> myAccounts = loadAccountsFromXml("src/main/resources/accounts.xml");
+        List<Flow> myFlows = loadFlowsFromJson("src/main/resources/flows.json");
+
+        // Associer un nouveau Client à chaque compte
+        for (Account acc : myAccounts) {
+            Client client = new Client("ClientNom" + acc.getAccountNumber(), "Prenom" + acc.getAccountNumber());
+            acc.setClient(client);
+        }
+
+        System.out.println("Chargement terminé !");
+        System.out.println("Nombre de comptes chargés : " + myAccounts.size());
+        System.out.println("Nombre de flux chargés : " + myFlows.size());
+
+        if (myAccounts.isEmpty() || myFlows.isEmpty()) {
+            System.out.println("ATTENTION : Les listes sont vides. Vérifie ton XML/JSON.");
+            return; // On arrête tout si rien n'est chargé
+        }
+
+        Map<Integer, Account> myAccountsMap = convertToHashtable(myAccounts);
+        processAndCheckFlows(myFlows, myAccountsMap);
+
+        System.out.println("--- Résultat Final ---");
+        displaySortedAccounts(myAccountsMap);
     }
 
     public static List<Client> generateClients(int n) {
@@ -111,5 +151,27 @@ public class Main {
                 .filter(isNegative)
                 .findFirst()
                 .ifPresent(a -> System.out.println("Compte n°" + a.getAccountNumber() + " à découvert : " + a.getBalance()));
+    }
+
+    // 2.1 Charger les flux depuis un JSON
+    public static List<Flow> loadFlowsFromJson(String filePath) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.readValue(new File(filePath), new TypeReference<List<Flow>>(){});
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la lecture du JSON : " + e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+
+    // 2.2 Charger les comptes depuis un XML
+    public static List<Account> loadAccountsFromXml(String filePath) {
+        XmlMapper xmlMapper = new XmlMapper();
+        try {
+            return xmlMapper.readValue(new File(filePath), new TypeReference<List<Account>>(){});
+        } catch (Exception e) {
+            System.err.println("Erreur XML : " + e.getMessage());
+            return new ArrayList<>();
+        }
     }
 }
