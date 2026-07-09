@@ -1,11 +1,10 @@
 package com.dsbank.app;
 
-import components.Account;
-import components.Client;
-import components.CurrentAccount;
-import components.SavingsAccount;
+import components.*;
 
 import java.util.*;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 // 1.1.2 Creation of main class for tests
 public class Main {
@@ -15,6 +14,12 @@ public class Main {
         List<Account> myAccounts = generateAccounts(myClients);
         // 1.3.1 Adaptation of the table of accounts
         Map<Integer, Account> myClientsMap = convertToHashtable(myAccounts);
+        // Chargement des flux (étape 1.3.4)
+        List<Flow> myFlows = generateFlows(myAccounts);
+        // Traitement des flux et vérification (étape 1.3.5)
+        processAndCheckFlows(myFlows, myClientsMap);
+        // Affichage final trié (étape 1.3.1)
+        System.out.println("--- Comptes triés par solde ---");
         displaySortedAccounts(myClientsMap);
     }
 
@@ -51,8 +56,7 @@ public class Main {
 //    }
 
     public static Map<Integer, Account> convertToHashtable(List<Account> accounts) {
-
-        Map<Integer, Account> map = new HashMap<>();
+        Map<Integer, Account> map = new Hashtable<>();
         for (Account a : accounts) {
             map.put(a.getAccountNumber(), a);
         }
@@ -63,5 +67,49 @@ public class Main {
         accountsMap.entrySet().stream()
                 .sorted(Comparator.comparing(entry -> entry.getValue().getBalance()))
                 .forEach(entry -> System.out.println(entry.getValue()));
+    }
+
+    public static List<Flow> generateFlows(List<Account> accounts) {
+        List<Flow> flows = new ArrayList<>();
+
+        // 1. Débit de 50€ du compte n°1
+        flows.add(new Debit("Débit de secours", 1, 50.0, 1, true));
+
+        // 2. Crédit de 100.50€ sur tous les "CurrentAccount"
+        for (Account a : accounts) {
+            if (a instanceof CurrentAccount) {
+                flows.add(new Credit("Prime Current", 2, 100.50, a.getAccountNumber(), true));
+            }
+        }
+
+        // 3. Crédit de 1500€ sur tous les "SavingsAccount"
+        for (Account a : accounts) {
+            if (a instanceof SavingsAccount) {
+                flows.add(new Credit("Prime Epargne", 3, 1500.0, a.getAccountNumber(), true));
+            }
+        }
+
+        // 4. Transfert de 50€ du compte n°1 vers n°2
+        flows.add(new Transfert("Virement interne", 4, 50.0, 2, true, 1));
+
+        return flows;
+    }
+
+    public static void processAndCheckFlows(List<Flow> flows, Map<Integer, Account> accounts) {
+        // Mise à jour des comptes
+        for (Flow f : flows) {
+            accounts.get(f.getTargetAccountNumber()).processFlow(f);
+
+            if (f instanceof Transfert t) {
+                accounts.get(t.getOriginAccountNumber()).processFlow(f);
+            }
+        }
+
+        Predicate<Account> isNegative = a -> a.getBalance() < 0;
+
+        accounts.values().stream()
+                .filter(isNegative)
+                .findFirst()
+                .ifPresent(a -> System.out.println("Compte n°" + a.getAccountNumber() + " à découvert : " + a.getBalance()));
     }
 }

@@ -36,4 +36,18 @@ public abstract class Account {
     public String toString() {
         return "Client [" + client.getClientNumber() + "] : " + client.getFirstName() + " " + client.getName() + " | Account Number [" + getAccountNumber() + "] " + getLabel() + ": " + getBalance();
     }
+
+    public void processFlow(Flow flow) {
+        if (flow instanceof Credit) {
+            this.balance += flow.getAmount();
+        } else if (flow instanceof Debit) {
+            this.balance -= flow.getAmount();
+        } else if (flow instanceof Transfert t) {
+            if (this.accountNumber == t.getTargetAccountNumber()) {
+                this.balance += t.getAmount();
+            } else if (this.accountNumber == t.getOriginAccountNumber()) {
+                this.balance -= t.getAmount();
+            }
+        }
+    }
 }
